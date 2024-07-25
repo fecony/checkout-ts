@@ -8,7 +8,7 @@ describe('product', () => {
   it('should initialize correctly', () => {
     const product = new Product('001', 'Curry Sauce', 1.95);
 
-    expect(product.sku).toBe('001');
+    expect(product.code).toBe('001');
     expect(product.name).toBe('Curry Sauce');
     expect(product.price).toBeCloseTo(1.95, 2);
     expect(product.priceInCents).toBe(195);

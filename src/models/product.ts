@@ -1,11 +1,10 @@
-import currency from 'currency.js';
 import { NegativePriceError, NegativePriceInCentsError } from '../errors';
 
 export class Product {
-  private _price: currency;
+  private _price: number;
 
   constructor(
-    public sku: string,
+    public code: string,
     public name: string,
     price: number,
   ) {
@@ -13,11 +12,11 @@ export class Product {
       throw new NegativePriceError();
     }
 
-    this._price = currency(price, { precision: 2 });
+    this._price = this.roundToTwoDecimals(price);
   }
 
   get price(): number {
-    return this._price.value;
+    return this._price;
   }
 
   set price(price: number) {
@@ -25,11 +24,11 @@ export class Product {
       throw new NegativePriceError();
     }
 
-    this._price = currency(price, { precision: 2 });
+    this._price = this.roundToTwoDecimals(price);
   }
 
   get priceInCents(): number {
-    return this._price.intValue;
+    return Math.round(this._price * 100);
   }
 
   set priceInCents(priceInCents: number) {
@@ -37,10 +36,10 @@ export class Product {
       throw new NegativePriceInCentsError();
     }
 
-    this._price = currency(priceInCents / 100, { precision: 2 });
+    this._price = this.roundToTwoDecimals(priceInCents / 100);
   }
 
-  // ToString(): string {
-  //   return this.sku;
-  // }
+  private roundToTwoDecimals(amount: number): number {
+    return Math.round(amount * 100) / 100;
+  }
 }
