@@ -1,38 +1,37 @@
+import { type Cart } from '../cart';
 import { type Product } from '../product';
 import { type PromotionalRule } from './promotional-rule';
 
 export type BulkPriceReductionRuleConfig = {
-  productCode: string;
+  product: Product;
   minQuantity: number;
-  reducedPrice: number;
+  discountPrice: number;
 };
 
 export class BulkPriceReductionRule implements PromotionalRule {
-  private readonly productCode: string;
+  private readonly product: Product;
   private readonly minQuantity: number;
-  private readonly reducedPrice: number;
+  private readonly discountPrice: number;
 
   constructor(config: BulkPriceReductionRuleConfig) {
-    this.productCode = config.productCode;
+    this.product = config.product;
     this.minQuantity = config.minQuantity;
-    this.reducedPrice = config.reducedPrice;
+    this.discountPrice = config.discountPrice;
   }
 
-  isApplicable(products: Product[]): boolean {
-    const applicableProducts = this.getApplicableProducts(products);
-    return applicableProducts.length >= this.minQuantity;
+  isApplicable(cart: Cart): boolean {
+    return cart.getProductAmount(this.product) >= this.minQuantity;
   }
 
-  apply(products: Product[]): number {
-    if (!this.isApplicable(products)) {
-      return 0;
+  apply(cart: Cart): [number, Cart] {
+    if (!this.isApplicable(cart)) {
+      return [0, cart];
     }
 
-    const applicableProducts = this.getApplicableProducts(products);
-    return this.reducedPrice * applicableProducts.length;
-  }
+    const productPrice = this.product.price;
 
-  protected getApplicableProducts(products: Product[]): Product[] {
-    return products.filter(product => product.code === this.productCode);
+    cart.updateProductPrice(this.product, this.discountPrice);
+
+    return [(productPrice - this.discountPrice) * cart.getProductAmount(this.product), cart];
   }
 }

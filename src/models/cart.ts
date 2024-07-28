@@ -31,6 +31,13 @@ export class Cart {
   }
 
   /**
+   * Clears cart by removing all items
+   */
+  public clear(): void {
+    this.items.clear();
+  }
+
+  /**
    * Returns content of the cart
    */
   public getItems(): Map<Product, number> {
@@ -49,6 +56,13 @@ export class Cart {
    */
   public getTotalCount(): number {
     return [...this.items.values()].reduce((total, amount) => total + amount, 0);
+  }
+
+  /**
+   * Return the subtotal of items in the cart
+   */
+  public getSubtotal(): number {
+    return [...this.items].reduce((total, [product, quantity]) => total + (product.price * quantity), 0);
   }
 
   /**

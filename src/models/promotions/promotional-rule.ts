@@ -1,6 +1,6 @@
-import { type Product } from '../product';
+import { type Cart } from '../cart';
 
 export type PromotionalRule = {
-  isApplicable(products: Product[]): boolean;
-  apply(products: Product[]): number;
+  isApplicable(cart: Cart): boolean;
+  apply(cart: Cart): [number, Cart];
 };
