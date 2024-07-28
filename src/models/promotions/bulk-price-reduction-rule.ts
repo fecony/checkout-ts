@@ -8,6 +8,10 @@ export type BulkPriceReductionRuleConfig = {
   discountPrice: number;
 };
 
+/**
+ * BulkPriceReductionRule class implements a promotional rule that applies
+ * a discount to the price of a product if a minimum quantity is purchased.
+ */
 export class BulkPriceReductionRule implements PromotionalRule {
   private readonly product: Product;
   private readonly minQuantity: number;
@@ -23,15 +27,15 @@ export class BulkPriceReductionRule implements PromotionalRule {
     return cart.getProductAmount(this.product) >= this.minQuantity;
   }
 
-  apply(cart: Cart): [number, Cart] {
+  apply(cart: Cart): number {
     if (!this.isApplicable(cart)) {
-      return [0, cart];
+      return 0;
     }
 
     const productPrice = this.product.price;
 
     cart.updateProductPrice(this.product, this.discountPrice);
 
-    return [(productPrice - this.discountPrice) * cart.getProductAmount(this.product), cart];
+    return (productPrice - this.discountPrice) * cart.getProductAmount(this.product);
   }
 }

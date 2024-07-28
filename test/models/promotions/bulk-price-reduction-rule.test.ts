@@ -46,7 +46,7 @@ describe('Bulk price reduction rule', () => {
     const rule = new BulkPriceReductionRule(ruleConfig);
 
     expect(pizza.price).toBe(5.99);
-    expect(rule.apply(testCart)).toStrictEqual([6, testCart]);
+    expect(rule.apply(testCart)).toBe(6);
     expect(pizza.price).toBe(ruleConfig.discountPrice);
   });
 
@@ -61,7 +61,7 @@ describe('Bulk price reduction rule', () => {
 
     expect(pizza.price).toBe(5.99);
     expect(rule.isApplicable(testCart)).toBe(false);
-    expect(rule.apply(testCart)).toStrictEqual([0, testCart]);
+    expect(rule.apply(testCart)).toBe(0);
     expect(pizza.price).toBe(5.99);
   });
 });

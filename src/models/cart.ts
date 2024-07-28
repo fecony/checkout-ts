@@ -52,7 +52,7 @@ export class Cart {
   }
 
   /**
-   * Returns the total count of articles in the cart
+   * Returns the total count of items in the cart
    */
   public getTotalCount(): number {
     return [...this.items.values()].reduce((total, amount) => total + amount, 0);

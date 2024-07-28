@@ -7,6 +7,10 @@ export type PercentageDiscountRuleConfig = {
   discount: number;
 };
 
+/**
+ * PercentageDiscountRule class implements a promotional rule that applies
+ * a percentage discount to the total cart value if it exceeds a certain threshold.
+ */
 export class PercentageDiscountRule implements PromotionalRule {
   private readonly threshold: number;
   private readonly discount: number;
@@ -21,11 +25,11 @@ export class PercentageDiscountRule implements PromotionalRule {
     return total > this.threshold;
   }
 
-  apply(cart: Cart): [number, Cart] {
+  apply(cart: Cart): number {
     if (!this.isApplicable(cart)) {
-      return [0, cart];
+      return 0;
     }
 
-    return [cart.getSubtotal() * (this.discount / 100), cart];
+    return cart.getSubtotal() * (this.discount / 100);
   }
 }

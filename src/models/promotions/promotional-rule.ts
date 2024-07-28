@@ -13,5 +13,5 @@ export type PromotionalRule = {
    *
    * @param cart
    */
-  apply(cart: Cart): [number, Cart];
+  apply(cart: Cart): number;
 };

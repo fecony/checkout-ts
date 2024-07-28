@@ -26,11 +26,9 @@ describe('Percentage discount rule', () => {
 
     expect(cart.getSubtotal()).toBe(50);
 
-    const [discount, updatedCart] = rule.apply(cart);
-
     expect(rule.isApplicable(cart)).toBeTruthy();
-    expect(discount).toBe(5);// 50 * 0.10
-    expect(updatedCart.getSubtotal()).toBe(50);
+    expect(rule.apply(cart)).toBe(5);// 50 * 0.10
+    expect(cart.getSubtotal()).toBe(50);
   });
 
   it('should not apply discount when subtotal does not exceed threshold', () => {
@@ -45,11 +43,8 @@ describe('Percentage discount rule', () => {
     const rule = new PercentageDiscountRule(config);
 
     expect(cart.getSubtotal()).toBe(35);
-
-    const [discount, updatedCart] = rule.apply(cart);
-
-    expect(discount).toBe(0);
-    expect(updatedCart.getSubtotal()).toBe(35);
+    expect(rule.apply(cart)).toBe(0);
+    expect(cart.getSubtotal()).toBe(35);
   });
 
   it('should not apply discount when subtotal is exactly at threshold', () => {
@@ -62,11 +57,9 @@ describe('Percentage discount rule', () => {
 
     const rule = new PercentageDiscountRule(config);
 
-    const [discount, updatedCart] = rule.apply(cart);
-
     expect(rule.isApplicable(cart)).toBeFalsy();
-    expect(discount).toBe(0);
-    expect(updatedCart.getSubtotal()).toBe(40);
+    expect(rule.apply(cart)).toBe(0);
+    expect(cart.getSubtotal()).toBe(40);
   });
 
   it('should apply correct discount for different thresholds', () => {
@@ -79,9 +72,7 @@ describe('Percentage discount rule', () => {
 
     const rule = new PercentageDiscountRule(config);
 
-    const [discount, updatedCart] = rule.apply(cart);
-
-    expect(discount).toBe(9); // 45 * 0.20
-    expect(updatedCart.getSubtotal()).toBe(45);
+    expect(rule.apply(cart)).toBe(9); // 45 * 0.20
+    expect(cart.getSubtotal()).toBe(45);
   });
 });
