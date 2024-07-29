@@ -73,6 +73,10 @@ This class provides a discount if a certain quantity of a specific product is pu
 
 This class provides a percentage discount if the total value of the cart exceeds a specified threshold.
 
+#### BuyOneGetOneRule
+
+This class provides a free product for every product of the same type purchased.
+
 #### PromotionEngine
 
 This class manages a list of promotional rules and applies them to a given cart. It calculates the total discount by iterating through all the applicable rules.
